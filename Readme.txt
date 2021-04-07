@@ -34,3 +34,7 @@ Here is one with more details, mostly useful if you intend to distribute your sc
 "apiVersion": "50.0",
 "logName": "log.txt"
 }
+
+I wrote a blog about it that talks about the the variable injection works and I don't feel writing anymore so just read that.
+
+https://iwritecrappycode.wordpress.com/2021/04/07/salesforce-apex-script-loader/
