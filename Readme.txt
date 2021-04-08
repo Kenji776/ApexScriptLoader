@@ -33,6 +33,7 @@ Here is one with more details, mostly useful if you intend to distribute your sc
 "createdDate": "4/06/2010",
 "apiVersion": "50.0",
 "logName": "log.txt"
+"injectionVariablesFile": ["variables.json", "variables2.json"]
 }
 
 I wrote a blog about it that talks about the the variable injection works and I don't feel writing anymore so just read that.
