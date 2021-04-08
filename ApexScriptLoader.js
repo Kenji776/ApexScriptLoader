@@ -190,51 +190,67 @@ function getProvidedArguments()
 
 function injectVariables()
 {
-	log('Reading injectable variables from file scripts/'+scriptName+'/'+configData.injectionVariablesFile);
-	
-	var apexFile = fs.readFileSync('scripts/'+scriptName+'/'+configData.apexScriptFile, 'utf8');
-	var variablesFile = fs.readFileSync('scripts/'+scriptName+'/'+configData.injectionVariablesFile, 'utf8');
-	var variablesJson =  JSON.parse(variablesFile);
-	
-	console.log(variablesJson);
-	
-	var apexFileAsArray = apexFile.split(/\r?\n/);
-	var variablesArray = [];
-	
-	Object.keys(variablesJson).forEach(function(key) {
-		var newLine = "runTimeVars.put('"+key+"',"+JSON.stringify(variablesJson[key]).replace(/"/g, '\'')+");";
-		variablesArray.push(newLine);
-	});	
-	
-	var insertPosition = 0;
-	var numLinesToRemove = 0;
-	for(var i = 0; i < apexFileAsArray.length; i++)
+	if(configData.injectionVariablesFile)
 	{
-		if(apexFileAsArray[i].search('{INJECTIONSTART}') > -1)
-		{		
-			insertPosition = i+1;
-		}	
-		if(apexFileAsArray[i].search('{INJECTIONEND}') > -1)
-		{			
-			numLinesToRemove = i-insertPosition;
+		var variablesArray = [];
+		var apexFile = fs.readFileSync('scripts/'+scriptName+'/'+configData.apexScriptFile, 'utf8');
+		var apexFileAsArray = apexFile.split(/\r?\n/);
+		
+		for(var j = 0; j< configData.injectionVariablesFile.length; j++)
+		{
+			try
+			{
+				log('Reading injectable variables from file scripts/'+scriptName+'/'+configData.injectionVariablesFile[j]);
+				
+				
+				var variablesFile = fs.readFileSync('scripts/'+scriptName+'/'+configData.injectionVariablesFile[j], 'utf8');
+				var variablesJson =  JSON.parse(variablesFile);
+				
+				console.log(variablesJson);
+					
+				Object.keys(variablesJson).forEach(function(key) {
+					var newLine = "runTimeVars.put('"+key+"',"+JSON.stringify(variablesJson[key]).replace(/"/g, '\'')+");";
+					variablesArray.push(newLine);
+				});	
+			}
+			catch(err)
+			{
+				log('Unable to read JSON from file, please ensure file exists and is valid JSON',true,'red');
+			}
+		}
+		
+		console.log('All loaded variables');
+		console.log(variablesArray);
+		var insertPosition = 0;
+		var numLinesToRemove = 0;
+		for(var i = 0; i < apexFileAsArray.length; i++)
+		{
+			if(apexFileAsArray[i].search('{INJECTIONSTART}') > -1)
+			{		
+				insertPosition = i+1;
+			}	
+			if(apexFileAsArray[i].search('{INJECTIONEND}') > -1)
+			{			
+				numLinesToRemove = i-insertPosition;
 
-		}			
+			}			
+		}
+		
+		//remove all old elements between the two markers.
+		apexFileAsArray.splice(insertPosition,numLinesToRemove);
+		
+		//insert the new elements
+		apexFileAsArray.insert(insertPosition, variablesArray.join('\r\n'));
+		
+		//create new file content from the array of lines
+		var newFile = apexFileAsArray.join('\r\n');
+		
+		console.log('Done Injecting variables!');
+		
+		fs.writeFileSync('scripts/'+scriptName+'/'+configData.apexScriptFile, newFile + '\r\n', function (err) {
+			if (err) throw err;
+		});
 	}
-	
-	//remove all old elements between the two markers.
-	apexFileAsArray.splice(insertPosition,numLinesToRemove);
-	
-	//insert the new elements
-	apexFileAsArray.insert(insertPosition, variablesArray.join('\r\n'));
-	
-	//create new file content from the array of lines
-	var newFile = apexFileAsArray.join('\r\n');
-	
-	console.log('Done Injecting variables!');
-	
-	fs.writeFileSync('scripts/'+scriptName+'/'+configData.apexScriptFile, newFile + '\r\n', function (err) {
-		if (err) throw err;
-	});
 	
 }
 //provides default values for required parameters in case they are not given in the config file.

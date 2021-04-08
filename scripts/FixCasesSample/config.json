@@ -1,6 +1,6 @@
 {
 "apexScriptFile": "FixCases.apex",
-"username": "Your Salesforce Username Here",
+"username": "daniel.j.llewellyn@xcelenergy.com",
 "apexResultFile": "executeResult.txt",
 "applicationName": "Reprocess Unsynced Cases",
 "description": "Node.js script that invokes an apex execute anonymous script using SFDX to update cases which did not sync properly. Changing the cases status forces reprocessing and hopefully propery syncing.",
@@ -8,5 +8,5 @@
 "createdDate": "4/06/2010",
 "apiVersion": "50.0",
 "logName": "log.txt",
-"injectionVariablesFile" : "variables.json"
+"injectionVariablesFile": ["variables.json", "variables2.json","missingFile.json"]
 }
