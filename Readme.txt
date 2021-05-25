@@ -8,7 +8,7 @@ You must first have authorized the org you intended to run your script against u
 
 To run your script simply call it from the terminal by passing the name of your script folder as a parameter to the ApexScriptLoader.js file. EX
 
-node ApexScriptLoader.js FixCases
+node ApexScriptLoader.js SampleScript
 
 where FixCases is the name of your script folder. In that folder the config file must be named config.json.
 
