@@ -5,8 +5,7 @@ public static map<string,object> runtimeVars  {
 	get {
 		map<string,object> runTimeVars = new map<string,object>();
 		//---- RunTimeVars Injected Here. Any code between the start and stop tags will be over written with the contents from the variables file when the script injector is run.-----//
-		//In the sample variables.json there are four variables, variableOne, variableTwo, variableThree and variableFour. If I want to access their values in this script I can simple reference them as
-		//runTimeVars.get('variableOne'), etc.
+		//runTimeVars.get('numDays'), etc.
 		//{INJECTIONSTART}
 		//{INJECTIONEND}
 		return runTimeVars;
@@ -26,7 +25,7 @@ public static void init()
 	}
 	
 	//send a confirmation email to the running user
-	sendEmail(UserInfo.getUserId(), 'Populate Vacancy Date Results for ' + datetime.now().format(), arrayToStringBody(logEntries));
+	sendEmail(UserInfo.getUserId(), 'Sample Email Result ' + datetime.now().format(), arrayToStringBody(logEntries));
 }
 
 /*
