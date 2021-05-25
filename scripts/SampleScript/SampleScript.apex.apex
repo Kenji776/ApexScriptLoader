@@ -50,7 +50,7 @@ public static void init()
 public static void writeLogEntry(string logText)
 {
 	system.debug('\n[LOG] '+logText);
-	logEntries.add(logText);
+	logEntries.add(logText + '\n');
 }
 
 //sends confirmation email to running user with log of results.
