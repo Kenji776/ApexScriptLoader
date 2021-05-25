@@ -1,0 +1,12 @@
+{
+"apexScriptFile": "SampleScript.apex",
+"username": "username@org.com",
+"apexResultFile": "executeResult.txt",
+"applicationName": "Sample Apex Script",
+"description": "A Sample Script To Show The File Structure and Config"",
+"author": "Kenji776@gmail.com",
+"createdDate": "5/01/2021",
+"apiVersion": "50.0",
+"logName": "log.txt",
+"injectionVariablesFile": ["variables.json"]
+}
